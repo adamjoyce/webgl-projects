@@ -29,6 +29,28 @@
                     alert("Unable to initialise WebGL. Your browser may not support it");
                 }
             }
+
+            function initShaders() {
+                var fragmentShader = getShader(gl, "shader-fs");
+                var vertexShader = getShader(gl, "shader-vs");
+
+                // Create the shader program.
+
+                shaderProgram = gl.createProgram();
+                gl.attachShader(shaderProgram, vertexShader);
+                gl.attachShader(shaderProgram, fragmentShader);
+                gl.linkProgram(shaderProgram);
+
+                // If creating the shader program failed, alert.
+                if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+                    alert ("Unable to initiliase the shader program");
+                }
+
+                gl.useProgram(shaderProgram);
+
+                vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+                gl.enableVertexAttribArray(VertexPositionAttribute);
+            }
         </script>
     </head>
     <body onload="start()">
