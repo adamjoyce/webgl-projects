@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <script>
+            function main() {
+                // Get a WebGL context.
+                var canvas = document.getElementById("canvas");
+                var gl = getWebGLContext(canvas);
+                if (!gl) {
+                    alert("Could not initialise WebGL. Please check that your browser supports WebGL.");
+                    return;
+                }
+
+                // Setup GLSL program.
+                var program = createProgramFromScripts(gl, ["2d-vertex-shader", "2d-fragment-shader"]);
+                gl.useProgram(program);
+
+                // Look up where the vertex data needs to go.
+                var positionLocation = gl.getAttribLocation(program, "a_position");
+
+                // Create a buffer and put a single clipspace rectangle in it.
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1.0, -1.0,
+                                                                  1.0, -1.0,
+                                                                  -1.0, 1.0,
+                                                                  -1.0, 1.0,
+                                                                  1.0, -1.0,
+                                                                  1.0, 1.0,]),
+                              gl.STATIC_DRAW);
+                gl.enableVertexAttribArray(positionLocation);
+            }
+        </script>
+    </head>
+
+    <body>
+        <canvas id="canvas" width="512" height="512">
+        </canvas>
+    </body>
+</html>
